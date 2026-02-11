@@ -1,0 +1,66 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6f8;
+}
+
+.container {
+  width: 480px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.question-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+.question-page {
+  display: none;
+}
+
+.question-page.active {
+  display: block;
+}
+
+.navigation {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+#prevBtn {
+  background: #ccc;
+}
+
+#nextBtn {
+  background: #ff7a18;
+  color: white;
+}
+
+#submitBtn {
+  background: #28a745;
+  color: white;
+  display: none;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h2>Admin Dashboard</h2>
+<canvas id="happinessChart"></canvas>
+
+<script>
+const responses = JSON.parse(localStorage.getItem("responses")) || [];
+
+const labels = responses.map(r => r.user);
+const scores = responses.map(r => r.happinessScore);
+
+new Chart(document.getElementById("happinessChart"), {
+  type: "bar",
+  data: {
+    labels: labels,
+    datasets: [{
+      label: "Happiness Index",
+      data: scores
+    }]
+  }
+});
+</script>
+
+</body>
+</html>

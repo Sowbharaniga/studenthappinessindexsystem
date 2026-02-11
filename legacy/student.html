@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Happiness Index Survey</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>🎓 Student Happiness Index Survey</h1>
+
+  <form id="surveyForm">
+
+    <!-- QUESTION 1 -->
+    <div class="question-page active">
+      <p class="question-text">
+        1. The quality of teaching meets my learning expectations.
+      </p>
+
+      <label><input type="radio" name="q1" value="1"> Strongly Disagree</label>
+      <label><input type="radio" name="q1" value="2"> Moderately Disagree</label>
+      <label><input type="radio" name="q1" value="3"> Slightly Disagree</label>
+      <label><input type="radio" name="q1" value="4"> Slightly Agree</label>
+      <label><input type="radio" name="q1" value="5"> Strongly Agree</label>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="question-page">
+      <p class="question-text">
+        2. Faculty members are approachable and supportive.
+      </p>
+
+      <label><input type="radio" name="q2" value="1"> Strongly Disagree</label>
+      <label><input type="radio" name="q2" value="2"> Moderately Disagree</label>
+      <label><input type="radio" name="q2" value="3"> Slightly Disagree</label>
+      <label><input type="radio" name="q2" value="4"> Slightly Agree</label>
+      <label><input type="radio" name="q2" value="5"> Strongly Agree</label>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="navigation">
+      <button type="button" id="prevBtn">Previous</button>
+      <button type="button" id="nextBtn">Next</button>
+      <button type="submit" id="submitBtn">Submit</button>
+    </div>
+
+  </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
