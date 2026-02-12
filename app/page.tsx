@@ -4,31 +4,31 @@ import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50">
+    <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(135deg,#0f172a,#1e293b)]">
       <div className="max-w-md w-full mx-4">
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden p-8 text-center border border-white/50 relative transform transition-all hover:scale-[1.01] duration-300">
+        <div className="bg-[#1e293b] rounded-[20px] shadow-xl overflow-hidden p-8 text-center border border-white/10 relative transform transition-all hover:scale-[1.01] duration-300">
 
           {/* Decorative Top Gradient */}
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-400 to-purple-400"></div>
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
 
           {/* Logo / Icon Placeholder */}
-          <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl shadow-inner">
+          <div className="w-16 h-16 bg-[#334155] rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl shadow-inner border border-[#475569]">
             🎓
           </div>
 
-          <h1 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight font-sans">
+          <h1 className="text-3xl font-bold text-white mb-3 tracking-tight font-sans">
             Student Happiness Index
           </h1>
 
-          <p className="text-gray-500 mb-10 text-lg leading-relaxed font-light">
+          <p className="text-[#94a3b8] mb-10 text-lg leading-relaxed font-light">
             Empowering campus well-being through real-time feedback and analytics.
           </p>
 
           <div className="space-y-4">
             <Link
               href="/login"
-              className="block w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center group"
+              className="block w-full bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] hover:brightness-110 text-white font-semibold py-3.5 px-6 rounded-[10px] transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center group"
             >
               Login
               <svg
@@ -42,23 +42,23 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/login?view=register"
-              className="block w-full bg-white border-2 border-indigo-100 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 font-semibold py-3.5 px-6 rounded-xl transition-all duration-200"
+              href="/register"
+              className="block w-full bg-[#334155] border border-[#475569] text-[#e2e8f0] hover:bg-slate-700 hover:border-slate-500 font-semibold py-3.5 px-6 rounded-[10px] transition-all duration-200 shadow-md"
             >
               Register Student
             </Link>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <p className="text-sm text-gray-400">
-              Admin? <Link href="/admin/login" className="text-indigo-500 hover:text-indigo-600 hover:underline font-medium">Login here</Link>
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <p className="text-sm text-[#94a3b8]">
+              Admin? <Link href="/admin/login" className="text-[#3b82f6] hover:text-[#60a5fa] hover:underline font-medium">Login here</Link>
             </p>
           </div>
 
         </div>
 
         {/* Footer */}
-        <p className="text-center text-gray-400 text-sm mt-8 opacity-60">
+        <p className="text-center text-[#94a3b8] text-sm mt-8 opacity-60">
           © {new Date().getFullYear()} University Campus System
         </p>
       </div>

@@ -55,6 +55,15 @@ export default async function AdminDashboard() {
         .limit(10)
         .all();
 
+    // 6. Admin User Info
+    const adminUser = await db.select({
+        name: users.name,
+        username: users.username
+    })
+        .from(users)
+        .where(eq(users.id, session.id as string))
+        .get();
+
     return (
         <DashboardContent
             stats={{
@@ -75,6 +84,7 @@ export default async function AdminDashboard() {
                     date: r.date?.toISOString() || ""
                 }))
             }}
+            adminUser={adminUser}
         />
     );
 }

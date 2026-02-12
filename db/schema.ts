@@ -25,3 +25,11 @@ export const surveyResponses = sqliteTable("survey_responses", {
     answers: text("answers").notNull(), // JSON string
     createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(strftime('%s', 'now'))`),
 });
+
+export const questions = sqliteTable("questions", {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    text: text("text").notNull(),
+    category: text("category").notNull(),
+    status: text("status", { enum: ["ACTIVE", "INACTIVE"] }).default("ACTIVE").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(strftime('%s', 'now'))`),
+});

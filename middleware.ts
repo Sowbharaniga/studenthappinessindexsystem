@@ -8,36 +8,62 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Public paths
-    if (pathname === "/login") {
-        if (token) {
-            // If already logged in, redirect to dashboard based on role (optimistic check)
-            // We can't verify role easily without decoding, but we'll let them go to their
-            // likely dashboard or just dashboard. For now, just let login page handle redirect if visited.
-            return NextResponse.next();
-        }
+    // Public paths
+    const isLoginPage = pathname === "/login" || pathname === "/admin/login";
+
+    if (isLoginPage) {
+        // Allow access to login pages even if logged in, as requested.
+        // The individual login pages can handle cleanup/logout if needed.
         return NextResponse.next();
     }
 
     // Protected paths
     if (pathname.startsWith("/admin") || pathname.startsWith("/student")) {
+        // 1. Check if token exists
         if (!token) {
-            return NextResponse.redirect(new URL("/login", request.url));
+            if (pathname.startsWith("/admin")) {
+                return NextResponse.redirect(new URL("/admin/login", request.url));
+            } else {
+                return NextResponse.redirect(new URL("/login", request.url));
+            }
         }
 
+        // 2. Verify token
         const payload = await verifyToken(token);
         if (!payload) {
-            return NextResponse.redirect(new URL("/login", request.url));
+            if (pathname.startsWith("/admin")) {
+                return NextResponse.redirect(new URL("/admin/login", request.url));
+            } else {
+                return NextResponse.redirect(new URL("/login", request.url));
+            }
         }
 
         const role = payload.role as string;
 
-        // Role-based protection
-        if (pathname.startsWith("/admin") && role !== "ADMIN") {
-            return NextResponse.redirect(new URL("/student/dashboard", request.url));
+        // 3. Strict Role-based Access Control
+
+        // Admin Pages Logic
+        if (pathname.startsWith("/admin")) {
+            if (role === "ADMIN") {
+                return NextResponse.next(); // Allow access
+            } else if (role === "STUDENT") {
+                return NextResponse.redirect(new URL("/student/dashboard", request.url)); // Redirect to correct dashboard
+            } else {
+                // Unknown role or unauthorized
+                return NextResponse.redirect(new URL("/login", request.url));
+            }
         }
 
-        if (pathname.startsWith("/student") && role !== "STUDENT") {
-            return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+        // Student Pages Logic
+        if (pathname.startsWith("/student")) {
+            if (role === "STUDENT") {
+                return NextResponse.next(); // Allow access
+            } else if (role === "ADMIN") {
+                return NextResponse.redirect(new URL("/admin/dashboard", request.url)); // Redirect to correct dashboard
+            } else {
+                // Unknown role or unauthorized
+                return NextResponse.redirect(new URL("/login", request.url));
+            }
         }
     }
 

@@ -68,9 +68,10 @@ function AdminLoginForm() {
                             type="text"
                             required
                             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors placeholder-gray-500"
-                            placeholder="admin"
+                            placeholder="Enter username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            autoComplete="off"
                         />
                     </div>
 
@@ -85,6 +86,7 @@ function AdminLoginForm() {
                             placeholder="••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            autoComplete="new-password"
                         />
                     </div>
 

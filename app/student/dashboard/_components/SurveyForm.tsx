@@ -4,37 +4,49 @@
 import { useActionState } from "react";
 import { submitSurvey } from "../../actions";
 
-const categories = [
-    {
-        title: "Academics",
-        questions: [
-            { id: "q-academic-load", text: "How manageable is your academic workload?" },
-            { id: "q-teaching", text: "How satisfied are you with the teaching quality?" },
-        ]
-    },
-    {
-        title: "Facilities",
-        questions: [
-            { id: "q-infrastructure", text: "How would you rate the classroom and lab infrastructure?" },
-            { id: "q-hostel", text: "How satisfied are you with hostel/campus facilities?" },
-        ]
-    },
-    {
-        title: "Personal Well-being",
-        questions: [
-            { id: "q-stress", text: "How well are you able to manage stress?" },
-            { id: "q-social", text: "How satisfied are you with your social life on campus?" },
-        ]
-    }
-];
-
 const initialState = {
     message: "",
     error: ""
 }
 
-export default function SurveyForm() {
+interface Question {
+    id: string;
+    text: string;
+    category: string;
+}
+
+export default function SurveyForm({ questions }: { questions: Question[] }) {
     const [state, formAction, isPending] = useActionState(submitSurvey, initialState);
+
+    // Group questions by category
+    const groupedQuestions = questions.reduce((acc, q) => {
+        if (!acc[q.category]) {
+            acc[q.category] = [];
+        }
+        acc[q.category].push(q);
+        return acc;
+    }, {} as Record<string, Question[]>);
+
+    // Defined order for categories if needed, or just Object.keys
+    const categoriesOrder = [
+        "Academics",
+        "Facilities & Infrastructure",
+        "Learning Resources",
+        "Personal Well-being",
+        "Social & Campus Life",
+        "Career & Growth",
+        "Overall"
+    ];
+
+    // Sort categories based on defined order, others at the end
+    const sortedCategories = Object.keys(groupedQuestions).sort((a, b) => {
+        const indexA = categoriesOrder.indexOf(a);
+        const indexB = categoriesOrder.indexOf(b);
+        if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+    });
 
     return (
         <form action={formAction} className="space-y-8">
@@ -44,11 +56,11 @@ export default function SurveyForm() {
                 </div>
             )}
 
-            {categories.map((cat, idx) => (
-                <div key={idx} className="border-b border-gray-100 pb-6 last:border-0">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">{cat.title}</h3>
+            {sortedCategories.map((category) => (
+                <div key={category} className="border-b border-gray-100 pb-6 last:border-0">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">{category}</h3>
                     <div className="space-y-6">
-                        {cat.questions.map((q) => (
+                        {groupedQuestions[category].map((q) => (
                             <div key={q.id}>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     {q.text}
@@ -58,7 +70,7 @@ export default function SurveyForm() {
                                         <label key={val} className="flex items-center gap-2 cursor-pointer">
                                             <input
                                                 type="radio"
-                                                name={q.id}
+                                                name={`q-${q.id}`}
                                                 value={val}
                                                 required
                                                 className="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
