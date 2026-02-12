@@ -101,58 +101,62 @@ export default function QuestionTable() {
     if (loading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin text-gray-500" /></div>;
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200/60 overflow-hidden">
-            <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-                <h3 className="font-semibold text-gray-900">Manage Questions</h3>
+        <div className="bg-white rounded-2xl shadow-lg border border-[#F1F5F9] overflow-hidden animate-fade-in">
+            <div className="px-8 py-8 border-b border-gray-100 flex items-center justify-between bg-white">
+                <div>
+                    <h3 className="text-xl font-extrabold text-[#0F172A]">Manage Questions</h3>
+                    <p className="text-sm font-medium text-gray-500">Curate and organize surveys for student feedback</p>
+                </div>
                 <button
                     onClick={openAddModal}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-100 transition-all active:scale-95 hover:scale-105"
                 >
-                    <Plus className="w-4 h-4" />
-                    Add Question
+                    <Plus className="w-5 h-5" />
+                    New Question
                 </button>
             </div>
 
             <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-50/50 text-gray-500 font-medium">
+                    <thead className="bg-[#F8FAFC] border-y border-gray-100/50 text-gray-500 font-bold uppercase tracking-widest text-[10px]">
                         <tr>
-                            <th className="px-6 py-3">Question Text</th>
-                            <th className="px-6 py-3">Category</th>
-                            <th className="px-6 py-3 text-center">Status</th>
-                            <th className="px-6 py-3 text-right">Actions</th>
+                            <th className="px-8 py-5">Question Text</th>
+                            <th className="px-8 py-5">Category</th>
+                            <th className="px-8 py-5 text-center">Status</th>
+                            <th className="px-8 py-5 text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
-                        {questions.map((q) => (
-                            <tr key={q.id} className="hover:bg-gray-50/50 transition-colors">
-                                <td className="px-6 py-4 font-medium text-gray-900 max-w-md truncate" title={q.text}>
+                    <tbody className="divide-y divide-gray-100/50">
+                        {questions.map((q, idx) => (
+                            <tr key={q.id} className={`hover:bg-indigo-50/30 transition-colors group ${idx % 2 === 1 ? 'bg-gray-50/30' : ''}`}>
+                                <td className="px-8 py-6 font-bold text-[#0F172A] max-w-md truncate" title={q.text}>
                                     {q.text}
                                 </td>
-                                <td className="px-6 py-4 text-gray-600">
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                <td className="px-8 py-6">
+                                    <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-[11px] font-bold bg-white text-indigo-600 border border-gray-200 shadow-sm">
                                         {q.category}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 text-center">
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${q.status === "ACTIVE"
-                                            ? "bg-green-50 text-green-700 border border-green-200"
-                                            : "bg-red-50 text-red-700 border border-red-200"
+                                <td className="px-8 py-6 text-center">
+                                    <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-[11px] font-bold shadow-sm ${q.status === "ACTIVE"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-red-100 text-red-700"
                                         }`}>
+                                        <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${q.status === 'ACTIVE' ? 'bg-green-500' : 'bg-red-500'}`}></span>
                                         {q.status}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 text-right">
-                                    <div className="flex items-center justify-end gap-2">
+                                <td className="px-8 py-6 text-right">
+                                    <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all">
                                         <button
                                             onClick={() => openEditModal(q)}
-                                            className="p-1.5 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors"
+                                            className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-white hover:border-gray-200 border border-transparent rounded-xl hover:shadow-md transition-all hover:scale-110"
                                         >
                                             <Pencil className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => handleDelete(q.id)}
-                                            className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-white hover:border-gray-200 border border-transparent rounded-xl hover:shadow-md transition-all hover:scale-110"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>

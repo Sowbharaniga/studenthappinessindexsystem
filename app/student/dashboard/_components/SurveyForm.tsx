@@ -49,37 +49,42 @@ export default function SurveyForm({ questions }: { questions: Question[] }) {
     });
 
     return (
-        <form action={formAction} className="space-y-8">
+        <form action={formAction} className="space-y-12">
             {state?.error && (
-                <div className="p-4 rounded-md bg-red-50 text-red-600 border border-red-200">
+                <div className="p-4 rounded-xl bg-[#FEF2F2] text-[#EF4444] border border-[#FEE2E2] font-semibold text-center">
                     {state.error}
                 </div>
             )}
 
             {sortedCategories.map((category) => (
-                <div key={category} className="border-b border-gray-100 pb-6 last:border-0">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">{category}</h3>
-                    <div className="space-y-6">
+                <div key={category} className="bg-[#F8FAFC] rounded-2xl p-6 lg:p-8 border border-[#F1F5F9]">
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="w-1 h-6 bg-[#4F46E5] rounded-full"></div>
+                        <h3 className="text-xl font-bold text-[#0F172A]">{category}</h3>
+                    </div>
+                    <div className="space-y-10">
                         {groupedQuestions[category].map((q) => (
                             <div key={q.id}>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-base font-bold text-[#334155] mb-4">
                                     {q.text}
                                 </label>
-                                <div className="flex gap-4">
+                                <div className="grid grid-cols-5 gap-3 max-w-sm">
                                     {[1, 2, 3, 4, 5].map((val) => (
-                                        <label key={val} className="flex items-center gap-2 cursor-pointer">
+                                        <label key={val} className="relative group cursor-pointer">
                                             <input
                                                 type="radio"
                                                 name={`q-${q.id}`}
                                                 value={val}
                                                 required
-                                                className="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                                                className="peer sr-only"
                                             />
-                                            <span className="text-sm text-gray-600">{val}</span>
+                                            <div className="flex items-center justify-center w-full h-12 bg-white border-2 border-[#E2E8F0] rounded-xl text-[#64748B] font-bold text-lg transition-all peer-checked:bg-[#4F46E5] peer-checked:border-[#4F46E5] peer-checked:text-white peer-checked:shadow-[0_8px_20px_rgba(79,70,229,0.3)] group-hover:border-[#4F46E5]/30">
+                                                {val}
+                                            </div>
                                         </label>
                                     ))}
                                 </div>
-                                <div className="flex justify-between text-xs text-gray-400 mt-1 px-1">
+                                <div className="flex justify-between text-xs font-bold text-[#94A3B8] mt-3 px-1 uppercase tracking-wider">
                                     <span>Very Dissatisfied</span>
                                     <span>Very Satisfied</span>
                                 </div>
@@ -89,13 +94,13 @@ export default function SurveyForm({ questions }: { questions: Question[] }) {
                 </div>
             ))}
 
-            <div className="pt-4">
+            <div className="pt-6">
                 <button
                     type="submit"
                     disabled={isPending}
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                    className="w-full flex justify-center py-4 px-6 bg-[#4F46E5] hover:bg-[#4338CA] text-white text-lg font-bold rounded-2xl shadow-[0_12px_30px_rgba(79,70,229,0.3)] transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
                 >
-                    {isPending ? "Submitting..." : "Submit Survey"}
+                    {isPending ? "Submitting Survey..." : "Submit My Survey"}
                 </button>
             </div>
         </form>

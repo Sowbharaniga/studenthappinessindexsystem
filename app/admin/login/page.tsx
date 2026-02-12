@@ -4,6 +4,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Shield, ArrowLeft } from "lucide-react";
 
 function AdminLoginForm() {
     const router = useRouter();
@@ -45,29 +46,32 @@ function AdminLoginForm() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900">
-            <div className="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-sm border border-gray-700">
+        <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
+            <div className="bg-white p-10 rounded-[24px] shadow-[0_20px_50px_rgba(79,70,229,0.08)] w-full max-w-md border border-[#F1F5F9]">
 
-                <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-white mb-2">Admin Portal</h1>
-                    <p className="text-sm text-gray-400">Secure access for system administrators</p>
+                <div className="text-center mb-10">
+                    <div className="w-16 h-16 bg-[#EEF2FF] rounded-2xl flex items-center justify-center mx-auto mb-6 border border-[#E0E7FF]">
+                        <Shield className="w-8 h-8 text-[#4F46E5]" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-[#0F172A] mb-2">Admin Portal</h1>
+                    <p className="text-sm font-medium text-[#64748B]">Secure access for system administrators</p>
                 </div>
 
                 {error && (
-                    <div className="mb-4 p-3 bg-red-900/30 border border-red-800 text-red-200 text-sm rounded-lg text-center">
+                    <div className="mb-6 p-4 bg-[#FEF2F2] border border-[#FEE2E2] text-[#EF4444] text-sm font-semibold rounded-xl text-center">
                         {error}
                     </div>
                 )}
 
-                <form onSubmit={handleLogin} className="space-y-5">
+                <form onSubmit={handleLogin} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">
+                        <label className="block text-sm font-bold text-[#475569] mb-2">
                             Username
                         </label>
                         <input
                             type="text"
                             required
-                            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors placeholder-gray-500"
+                            className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#0F172A] focus:ring-4 focus:ring-[#4F46E5]/10 focus:border-[#4F46E5] transition-all placeholder-[#94A3B8] outline-none font-medium"
                             placeholder="Enter username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
@@ -76,13 +80,13 @@ function AdminLoginForm() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">
+                        <label className="block text-sm font-bold text-[#475569] mb-2">
                             Password
                         </label>
                         <input
                             type="password"
                             required
-                            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors placeholder-gray-500"
+                            className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#0F172A] focus:ring-4 focus:ring-[#4F46E5]/10 focus:border-[#4F46E5] transition-all placeholder-[#94A3B8] outline-none font-medium"
                             placeholder="••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -93,15 +97,15 @@ function AdminLoginForm() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-lg transition-colors shadow-lg disabled:opacity-70"
+                        className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_8px_20px_rgba(79,70,229,0.2)] hover:shadow-[0_12px_24px_rgba(79,70,229,0.3)] disabled:opacity-70 mt-4"
                     >
                         {loading ? "Authenticating..." : "Access Dashboard"}
                     </button>
                 </form>
 
-                <div className="mt-6 text-center">
-                    <Link href="/" className="text-sm text-gray-500 hover:text-gray-300 hover:underline">
-                        ← Back to Home
+                <div className="mt-10 text-center">
+                    <Link href="/" className="text-sm font-bold text-[#64748B] hover:text-[#4F46E5] transition-colors flex items-center justify-center gap-2">
+                        <ArrowLeft className="w-4 h-4" /> Back to Home
                     </Link>
                 </div>
             </div>
