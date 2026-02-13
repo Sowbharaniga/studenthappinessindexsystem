@@ -13,6 +13,8 @@ export async function POST(request: Request) {
 
         // Check if user exists
         const user = await db.select().from(users).where(eq(users.username, username)).get();
+
+
         if (!user) {
             return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
         }

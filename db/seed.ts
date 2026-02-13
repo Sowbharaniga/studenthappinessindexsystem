@@ -40,6 +40,8 @@ async function seed() {
     // Seed Questions
     const existingQuestions = await db.select().from(questions).get();
     if (!existingQuestions) {
+
+
         console.log("Seeding questions...");
         const categories = [
             {

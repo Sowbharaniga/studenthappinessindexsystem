@@ -13,13 +13,13 @@ export default async function AdminProfilePage() {
         redirect("/login");
     }
 
-    const adminUser = await db.select({
-        name: users.name,
-        username: users.username
-    })
+    const adminUser = await db
+        .select()
         .from(users)
         .where(eq(users.id, session.id as string))
         .get();
+
+
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] font-sans text-[#0F172A]">

@@ -18,8 +18,6 @@ export async function POST(request: Request) {
         }
 
         // Resolve department Name to ID if needed
-        // Assuming the frontend sends the Name string in 'departmentId' field because I set values that way.
-        // Let's find the department by name.
         let targetDeptId = null;
         if (departmentId) {
             const dept = await db.select().from(departments).where(eq(departments.name, departmentId)).get();
@@ -37,7 +35,13 @@ export async function POST(request: Request) {
             name,
             role: "STUDENT",
             departmentId: targetDeptId,
-        }).returning({ id: users.id, username: users.username, role: users.role, departmentId: users.departmentId }).get();
+        }).returning({
+            id: users.id,
+            username: users.username,
+            role: users.role,
+            departmentId: users.departmentId
+        }).get();
+
 
         // Auto login
         const token = await signToken({

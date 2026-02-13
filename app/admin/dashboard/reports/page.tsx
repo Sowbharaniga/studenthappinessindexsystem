@@ -29,13 +29,14 @@ export default async function ReportsPage() {
 
     // Fetch Unique Departments for filter
     const allDepts = await db.select({ name: departments.name }).from(departments).all();
+
     const deptList = allDepts.map(d => d.name);
 
     // Format data for client component
     const formattedResponses = allResponses.map(res => ({
         id: res.id,
         score: res.score,
-        date: res.date?.toISOString() || null,
+        date: res.date || null,
         studentName: res.studentName || "Unknown Student",
         rollNo: res.rollNo || "N/A",
         dept: res.dept || "General"

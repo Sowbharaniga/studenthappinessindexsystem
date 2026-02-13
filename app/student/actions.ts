@@ -44,6 +44,8 @@ export async function submitSurvey(prevState: any, formData: FormData) {
         // Check if already submitted
         const existing = await db.select().from(surveyResponses).where(eq(surveyResponses.studentId, session.id as string)).get();
 
+
+
         if (existing) {
             return { error: "You have already submitted the survey." };
         }

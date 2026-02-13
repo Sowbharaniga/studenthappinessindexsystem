@@ -14,20 +14,15 @@ export default async function AdminDashboard() {
 
     // Fetch Stats
     // 1. Total Students
-    const totalStudentsResult = await db.select({ count: sql<number>`count(*)` }).from(users).where(eq(users.role, "STUDENT")).get();
-    const totalStudents = totalStudentsResult?.count || 0;
+    const totalStudents = (await db.select({ count: sql<number>`count(*)` }).from(users).where(eq(users.role, "STUDENT")).get())?.count || 0;
 
     // 2. Total Responses
-    const totalResponsesResult = await db.select({ count: sql<number>`count(*)` }).from(surveyResponses).get();
-    const totalResponses = totalResponsesResult?.count || 0;
+    const totalResponses = (await db.select({ count: sql<number>`count(*)` }).from(surveyResponses).get())?.count || 0;
 
     // 3. Average Happiness Score
-    const avgScoreResult = await db.select({ avg: sql<number>`avg(${surveyResponses.score})` }).from(surveyResponses).get();
-    const avgScore = avgScoreResult?.avg || 0;
+    const avgScore = (await db.select({ avg: sql<number>`avg(${surveyResponses.score})` }).from(surveyResponses).get())?.avg || 0;
 
     // 4. Department-wise analysis
-    // We need to join users -> departments and then group by department
-    // Since this sqlite setup might be simple, let's do a join query or two steps
     const deptStats = await db.select({
         name: departments.name,
         avgScore: sql<number>`avg(${surveyResponses.score})`,
@@ -36,7 +31,7 @@ export default async function AdminDashboard() {
         .from(departments)
         .leftJoin(users, eq(users.departmentId, departments.id))
         .leftJoin(surveyResponses, eq(surveyResponses.studentId, users.id))
-        .groupBy(departments.id)
+        .groupBy(departments.id, departments.name)
         .all();
 
     // 5. Recent Responses
@@ -64,6 +59,8 @@ export default async function AdminDashboard() {
         .where(eq(users.id, session.id as string))
         .get();
 
+
+
     return (
         <DashboardContent
             stats={{
@@ -81,10 +78,11 @@ export default async function AdminDashboard() {
                     rollNo: r.rollNo || "Unknown",
                     department: r.dept || "Unknown",
                     score: r.score,
-                    date: r.date?.toISOString() || ""
+                    date: r.date || ""
                 }))
             }}
             adminUser={adminUser}
         />
     );
+
 }

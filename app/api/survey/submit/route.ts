@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { surveyResponses } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { sql } from "drizzle-orm";
+
 
 export async function POST(request: Request) {
     try {
@@ -23,7 +25,15 @@ export async function POST(request: Request) {
             studentId: session.id as string,
             score: percentage,
             answers: JSON.stringify(answers),
+        }).onConflictDoUpdate({
+            target: surveyResponses.studentId,
+            set: {
+                score: percentage,
+                answers: JSON.stringify(answers),
+                createdAt: sql`CURRENT_TIMESTAMP`
+            }
         });
+
 
         return NextResponse.json({ success: true, score: percentage });
     } catch (e) {

@@ -38,6 +38,7 @@ export async function POST(request: Request) {
             status: "ACTIVE"
         }).returning().get();
 
+
         return NextResponse.json(newQuestion);
     } catch (error) {
         return NextResponse.json({ error: "Failed to create question" }, { status: 500 });

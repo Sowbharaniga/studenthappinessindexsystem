@@ -21,6 +21,8 @@ export default async function StudentDashboard() {
 
     const activeQuestions = await db.select().from(questions).where(eq(questions.status, "ACTIVE")).all();
 
+
+
     return (
         <div className="min-h-screen bg-[linear-gradient(135deg,#EEF2FF,30%,#BAE6FD)] p-6 lg:p-12">
             <div className="max-w-4xl mx-auto bg-white rounded-[32px] shadow-[0_20px_50px_rgba(79,70,229,0.1)] overflow-hidden border border-white">
