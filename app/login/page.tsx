@@ -28,11 +28,11 @@ function LoginForm() {
             try {
                 data = await res.json();
             } catch {
-                throw new Error("Invalid server response. Please try again.");
+                throw new Error("Server returned invalid response");
             }
 
             if (!res.ok) {
-                throw new Error(data.error || "Login failed");
+                throw new Error(data?.error || "Login failed");
             }
 
             // STRICTLY ENFORCE STUDENT ONLY
