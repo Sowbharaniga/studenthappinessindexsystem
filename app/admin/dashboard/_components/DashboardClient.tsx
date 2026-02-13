@@ -354,7 +354,10 @@ export default function DashboardClient({ stats, responses, questions, adminUser
                             <RechartsTooltip
                                 cursor={{ fill: '#F8FAFC' }}
                                 contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                                formatter={(value: number) => [value?.toFixed(1) || "0.0", "Avg Score"]}
+                                formatter={(value: number | undefined) => [
+                                    typeof value === "number" ? value.toFixed(1) : "0.0",
+                                    "Avg Score"
+                                ]}
                             />
                             <Bar dataKey="avgScore" radius={[0, 6, 6, 0]} animationDuration={1000}>
                                 {stats.departmentStats.map((entry, index) => (
@@ -417,6 +420,10 @@ export default function DashboardClient({ stats, responses, questions, adminUser
                                         <RechartsTooltip
                                             cursor={{ fill: '#F1F5F9' }}
                                             contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                            formatter={(value: number | undefined) => [
+                                                typeof value === "number" ? value.toFixed(1) : "0.0",
+                                                "Score"
+                                            ]}
                                         />
                                         <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={20}>
                                             {studentStats.map((entry, index) => (
