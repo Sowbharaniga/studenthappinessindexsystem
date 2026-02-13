@@ -1,9 +1,36 @@
-
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { questions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
+
+export async function GET(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const session = await getSession();
+        if (!session || session.role !== "ADMIN") {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const { id } = await params;
+
+        const question = await db.query.questions.findFirst({
+            where: eq(questions.id, id),
+        });
+
+        if (!question) {
+            return NextResponse.json({ error: "Question not found" }, { status: 404 });
+        }
+
+        return NextResponse.json(question);
+    } catch (error) {
+        return NextResponse.json({ error: "Failed to fetch question" }, { status: 500 });
+    }
+}
 
 export async function PUT(
     request: Request,
@@ -28,8 +55,6 @@ export async function PUT(
             .where(eq(questions.id, id))
             .returning()
             .then(res => res[0]);
-
-
 
         return NextResponse.json(updatedQuestion);
     } catch (error) {
