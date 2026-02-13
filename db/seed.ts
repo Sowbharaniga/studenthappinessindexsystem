@@ -1,4 +1,7 @@
 
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import { db } from "./index";
 import { users, departments, questions } from "./schema";
 import { eq } from "drizzle-orm";
@@ -19,7 +22,7 @@ async function seed() {
     }
 
     // Create Admin User
-    const existingAdmin = await db.select().from(users).where(eq(users.username, "admin")).get();
+    const existingAdmin = (await db.select().from(users).where(eq(users.username, "admin")))[0];
     if (!existingAdmin) {
         const hashedPassword = await bcrypt.hash("admin123", 10);
         try {
@@ -38,7 +41,7 @@ async function seed() {
     }
 
     // Seed Questions
-    const existingQuestions = await db.select().from(questions).get();
+    const existingQuestions = (await db.select().from(questions))[0];
     if (!existingQuestions) {
 
 
@@ -123,4 +126,12 @@ async function seed() {
     console.log("Seeding complete.");
 }
 
-seed();
+seed()
+    .then(() => {
+        console.log("Seeding process finished.");
+        process.exit(0);
+    })
+    .catch((e) => {
+        console.error("Seeding failed:", e);
+        process.exit(1);
+    });

@@ -25,10 +25,9 @@ export default async function ReportsPage() {
         .leftJoin(users, eq(surveyResponses.studentId, users.id))
         .leftJoin(departments, eq(users.departmentId, departments.id))
         .orderBy(sql`${surveyResponses.createdAt} DESC`)
-        .all();
 
     // Fetch Unique Departments for filter
-    const allDepts = await db.select({ name: departments.name }).from(departments).all();
+    const allDepts = await db.select({ name: departments.name }).from(departments);
 
     const deptList = allDepts.map(d => d.name);
 

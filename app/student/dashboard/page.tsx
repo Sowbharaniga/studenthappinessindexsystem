@@ -13,13 +13,14 @@ export default async function StudentDashboard() {
         redirect("/login");
     }
 
-    const response = await db.select().from(surveyResponses).where(eq(surveyResponses.studentId, session.id as string)).get();
+    // Check if already submitted
+    const response = (await db.select().from(surveyResponses).where(eq(surveyResponses.studentId, session.id as string)))[0];
 
     if (response) {
         return <SurveyResult score={response.score} />;
     }
 
-    const activeQuestions = await db.select().from(questions).where(eq(questions.status, "ACTIVE")).all();
+    const activeQuestions = await db.select().from(questions).where(eq(questions.status, "ACTIVE"));
 
 
 

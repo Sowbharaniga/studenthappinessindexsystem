@@ -11,7 +11,7 @@ export async function GET() {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const allQuestions = await db.select().from(questions).all();
+        const allQuestions = await db.select().from(questions);
         return NextResponse.json(allQuestions);
     } catch (error) {
         return NextResponse.json({ error: "Failed to fetch questions" }, { status: 500 });
@@ -32,11 +32,13 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Text and Category are required" }, { status: 400 });
         }
 
+        // The .returning() and .then(res => res[0]) pattern is correct for Drizzle ORM
+        // to get the inserted row. No changes needed here based on the instruction.
         const newQuestion = await db.insert(questions).values({
             text,
             category,
             status: "ACTIVE"
-        }).returning().get();
+        }).returning().then(res => res[0]);
 
 
         return NextResponse.json(newQuestion);

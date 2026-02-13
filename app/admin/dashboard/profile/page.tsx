@@ -17,7 +17,7 @@ export default async function AdminProfilePage() {
         .select()
         .from(users)
         .where(eq(users.id, session.id as string))
-        .get();
+        .then(res => res[0]);
 
 
 

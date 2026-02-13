@@ -27,7 +27,7 @@ export async function PUT(
             .set({ text, category, status })
             .where(eq(questions.id, id))
             .returning()
-            .get();
+            .then(res => res[0]);
 
 
 

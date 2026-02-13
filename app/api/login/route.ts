@@ -9,7 +9,12 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
     try {
-        const { username, password } = await request.json();
+        const body = await request.json();
+        const { username, password } = body;
+
+        if (!username || !password) {
+            return NextResponse.json({ error: "Username and password are required" }, { status: 400 });
+        }
 
         // Check if user exists
         const user = (await db.select().from(users).where(eq(users.username, username)))[0];
@@ -42,7 +47,8 @@ export async function POST(request: Request) {
         // Return role for redirect
         return NextResponse.json({
             success: true,
-            role: user.role
+            role: user.role,
+            token // Returning token as well for API clients
         });
 
     } catch (e) {

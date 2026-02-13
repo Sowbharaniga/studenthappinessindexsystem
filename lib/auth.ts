@@ -3,7 +3,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-const SECRET_KEY = new TextEncoder().encode("super-secret-key-change-this");
+const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET || "default-secret-key-change-this");
 
 export async function signToken(payload: any) {
     return await new SignJWT(payload)

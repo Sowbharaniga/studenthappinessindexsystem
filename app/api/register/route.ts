@@ -9,7 +9,12 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
     try {
-        const { username, password, name, departmentId } = await request.json();
+        const body = await request.json();
+        const { username, password, name, departmentId } = body;
+
+        if (!username || !password || !name) {
+            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+        }
 
         // Check if user exists
         const existingUser = (await db.select().from(users).where(eq(users.username, username)))[0];
@@ -42,7 +47,6 @@ export async function POST(request: Request) {
             departmentId: users.departmentId
         }).then(res => res[0]);
 
-
         // Auto login
         const token = await signToken({
             id: newUser.id,
@@ -58,9 +62,9 @@ export async function POST(request: Request) {
             path: "/",
         });
 
-        return NextResponse.json({ success: true });
+        return NextResponse.json({ success: true, user: newUser });
     } catch (e) {
-        console.error(e);
+        console.error("Registration error:", e);
         return NextResponse.json({ error: "Registration failed" }, { status: 500 });
     }
 }

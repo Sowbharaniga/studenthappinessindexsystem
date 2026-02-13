@@ -42,7 +42,7 @@ export async function submitSurvey(prevState: any, formData: FormData) {
         const averageScore = totalScore / count;
 
         // Check if already submitted
-        const existing = await db.select().from(surveyResponses).where(eq(surveyResponses.studentId, session.id as string)).get();
+        const existing = (await db.select().from(surveyResponses).where(eq(surveyResponses.studentId, session.id as string)))[0];
 
 
 
