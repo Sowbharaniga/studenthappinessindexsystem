@@ -35,7 +35,7 @@ export default async function ReportsPage() {
     const formattedResponses = allResponses.map(res => ({
         id: res.id,
         score: res.score,
-        date: res.date || null,
+        date: res.date ? new Date(res.date).toISOString() : null,
         studentName: res.studentName || "Unknown Student",
         rollNo: res.rollNo || "N/A",
         dept: res.dept || "General"
