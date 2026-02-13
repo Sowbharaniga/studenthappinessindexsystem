@@ -9,7 +9,13 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
+        let body;
+        try {
+            body = await request.json();
+        } catch (e) {
+            return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+        }
+
         const { username, password } = body;
 
         if (!username || !password) {

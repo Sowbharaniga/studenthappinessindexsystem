@@ -9,7 +9,18 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
     try {
-        const { username, password } = await request.json();
+        let body;
+        try {
+            body = await request.json();
+        } catch (e) {
+            return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+        }
+
+        const { username, password } = body;
+
+        if (!username || !password) {
+            return NextResponse.json({ error: "Username and password are required" }, { status: 400 });
+        }
 
         // Check if user exists
         const user = (await db.select().from(users).where(eq(users.username, username)))[0];

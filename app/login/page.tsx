@@ -24,7 +24,12 @@ function LoginForm() {
                 body: JSON.stringify({ username, password }),
             });
 
-            const data = await res.json();
+            let data;
+            try {
+                data = await res.json();
+            } catch {
+                throw new Error("Invalid server response. Please try again.");
+            }
 
             if (!res.ok) {
                 throw new Error(data.error || "Login failed");
