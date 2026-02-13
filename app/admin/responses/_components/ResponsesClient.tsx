@@ -234,7 +234,10 @@ export default function ResponsesClient({ responses, questions, adminUser }: Pro
                                         <RechartsTooltip
                                             cursor={{ fill: '#F1F5F9' }}
                                             contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                            formatter={(value: number) => [value?.toFixed(1) || "0.0", "Score"]}
+                                            formatter={(value: number | undefined) => [
+                                                typeof value === "number" ? value.toFixed(1) : "0.0",
+                                                "Score"
+                                            ]}
                                         />
                                         <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={20}>
                                             {studentStats.map((entry, index) => (
